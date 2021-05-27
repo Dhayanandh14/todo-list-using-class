@@ -4,25 +4,25 @@ class Todo
   def initialize(text, due_date, completed)
     @text = text           #set the todo text to instance variable
     @due_date = due_date   #set the due_date to @due_date instance variable
-    @complete = completed  #set the completed boolean value to @complete instance variable
+    @completed = completed  #set the completed boolean value to @complete instance variable
   end
 
   def overdue?
-    return (Date.today > @due_date) ? true : false  #check the due_date that date is today or not
+    Date.today > @due_date  #check the due_date that date is today or not
   end
 
   def due_today?
-    return (Date.today == @due_date) ? true : false #check the due_date that date is today or not
+    Date.today == @due_date  #check the due_date that date is today or not
   end
 
   def due_later?
-    return (Date.today < @due_date) ? true : false  #check the due_date that date is today or later
+    Date.today < @due_date  #check the due_date that date is today or later
   end
 
-  def to_display
-    check_complete = @complete == true ? "[X]" : "[ ]"  #check the complete if the complete is true [x] will show if complete is false it will show [] this
-    check_date = (Date.today == @due_date) ? " " : @due_date.to_s  # theck the date is today or not if is today date will not print if is not today date the given date will print
-    return check_complete + " " + @text + " " + check_date # concat the all strings then return
+  def to_displayable_string
+    display_status = @completed ? "[X]" : "[ ]" #check the complete if the complete is true [x] will show if complete is false it will show [] this
+    display_date = due_today? ? "" : @due_date  # theck the date is today or not if is today date will not print if is not today date the given date will print
+    return "#{display_status} #{@text} #{display_date}" # concat the all strings then return
   end
 end
 
@@ -42,13 +42,12 @@ class TodosList
   def due_later
     TodosList.new(@todos.filter { |todo| todo.due_later? })
   end
-
   def add(new_todo)
     @todos.push(new_todo) #add latest todo
   end
 
   def to_displayable_list
-    @todos.map { |x| x.to_display } #display the todo
+    @todos.map { |todo| todo.to_displayable_string } #display the todo
   end
 end
 
