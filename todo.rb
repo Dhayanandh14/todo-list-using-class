@@ -42,6 +42,7 @@ class TodosList
   def due_later
     TodosList.new(@todos.filter { |todo| todo.due_later? })
   end
+
   def add(new_todo)
     @todos.push(new_todo) #add latest todo
   end
